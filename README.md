@@ -14,7 +14,7 @@
             margin-top: 20px;
             padding: 10px;
             border: 1px solid #000;
-            background-color: #333333; /* צבע רקע לתיבת התגובה */
+            background-color: #1E1E1E; /* צבע רקע שחור בהיר יותר לתיבת התגובה */
             color: #FFFFFF; /* צבע טקסט לבן בתיבת התגובה */
             width: 1200px;
             height: 250px;
