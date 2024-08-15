@@ -29,10 +29,12 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('הטופס נשלח בהצלחה!');
+            .then(response => {
+                if (response.ok) {
+                    alert('המתעניין נוצר בהצלחה!');
+                } else {
+                    alert('משהו השתבש. אנא נסה שוב.');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
