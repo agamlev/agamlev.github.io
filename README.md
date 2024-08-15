@@ -9,8 +9,8 @@
             margin-top: 20px; /* רווח למעלה */
             padding: 10px;    /* ריפוד פנימי */
             border: 1px solid #000; /* מסגרת שחורה */
-            width: 500px;    /* רוחב התיבה */
-            height: 300px;   /* גובה התיבה */
+            width: 300px;    /* רוחב התיבה */
+            height: 150px;   /* גובה התיבה */
             overflow: auto;  /* גלילה אוטומטית במקרה של תוכן גדול */
             display: none;   /* התיבה מוסתרת כברירת מחדל */
         }
@@ -70,7 +70,7 @@
             })))
             .then(res => {
                 responseBox.style.display = 'block'; // מציג את תיבת התגובה
-                responseBox.innerHTML = `<pre>סטטוס: ${res.status}</pre>`;
+                responseBox.innerHTML = `<pre>סטטוס: ${res.status}\nתשובה מהשרת: ${JSON.stringify(res.body, null, 2)}</pre>`;
             })
             .catch(error => { // מטפל בשגיאות ברשת או בשגיאות אחרות במהלך הביצוע
                 console.error('Error:', error);
