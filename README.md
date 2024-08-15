@@ -9,8 +9,8 @@
             margin-top: 20px; /* רווח למעלה */
             padding: 10px;    /* ריפוד פנימי */
             border: 1px solid #000; /* מסגרת שחורה */
-            width: 300px;    /* רוחב התיבה */
-            height: 150px;   /* גובה התיבה */
+            width: 500px;    /* רוחב התיבה */
+            height: 300px;   /* גובה התיבה */
             overflow: auto;  /* גלילה אוטומטית במקרה של תוכן גדול */
             display: none;   /* התיבה מוסתרת כברירת מחדל */
         }
@@ -29,6 +29,9 @@
         <label for="email">כתובת מייל:</label><br>
         <input type="email" id="email" name="email" required><br><br>
         
+        <label for="phone">טלפון:</label><br>
+        <input type="tel" id="phone" name="phone" required><br><br>
+        
         <button type="submit">שלח</button> <!-- כפתור שליחה -->
     </form>
 
@@ -41,13 +44,25 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // מונע את שליחת הטופס בצורה הרגילה
 
-            const formData = new FormData(this); // יוצר אובייקט FormData מהטופס
+            const formData = {
+                "first_name": document.getElementById('first_name').value,
+                "last_name": document.getElementById('last_name').value,
+                "email": document.getElementById('email').value,
+                "phone": document.getElementById('phone').value,
+                "location_box_fk": 279,
+                "users_boxes_owner_id": 3546456
+            };
+
             const responseBox = document.getElementById('responseBox'); // תיבת התגובה שבה נשתמש להציג את התגובה מהשרת
 
             // שליחת בקשת POST ל-API עם נתוני הטופס
             fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
             })
             .then(response => response.json().then(data => ({
                 status: response.status,  // קוד הסטטוס של התגובה
@@ -55,11 +70,7 @@
             })))
             .then(res => {
                 responseBox.style.display = 'block'; // מציג את תיבת התגובה
-                if (res.status >= 200 && res.status < 300) { // בודק אם קוד הסטטוס הוא בטווח של הצלחה
-                    responseBox.innerHTML = `<p>המתעניין נוצר בהצלחה!</p><pre>${JSON.stringify(res.body, null, 2)}</pre>`;
-                } else { // כל קוד אחר מציין שגיאה
-                    responseBox.innerHTML = `<p>משהו השתבש. אנא נסה שוב.</p><pre>${JSON.stringify(res.body, null, 2)}</pre>`;
-                }
+                responseBox.innerHTML = `<pre>סטטוס: ${res.status}</pre>`;
             })
             .catch(error => { // מטפל בשגיאות ברשת או בשגיאות אחרות במהלך הביצוע
                 console.error('Error:', error);
