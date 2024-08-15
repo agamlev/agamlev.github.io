@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>טופס הרשמה</title>
+    <style>
+        #responseBox {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+            width: 300px;
+            height: 150px;
+            overflow: auto;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>טופס הרשמה</h1>
@@ -19,26 +30,35 @@
         <button type="submit">שלח</button>
     </form>
 
+    <div id="responseBox"></div>
+
     <script>
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // מונע את שליחת הטופס בצורה הרגילה
 
             const formData = new FormData(this);
+            const responseBox = document.getElementById('responseBox');
 
             fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (response.ok) {
-                    alert('המתעניין נוצר בהצלחה!');
+            .then(response => response.json().then(data => ({
+                status: response.status,
+                body: data
+            })))
+            .then(res => {
+                responseBox.style.display = 'block';
+                if (res.status >= 200 && res.status < 300) {
+                    responseBox.innerHTML = `<p>המתעניין נוצר בהצלחה!</p><pre>${JSON.stringify(res.body, null, 2)}</pre>`;
                 } else {
-                    alert('משהו השתבש. אנא נסה שוב.');
+                    responseBox.innerHTML = `<p>משהו השתבש. אנא נסה שוב.</p><pre>${JSON.stringify(res.body, null, 2)}</pre>`;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('אירעה שגיאה בעת שליחת הטופס.');
+                responseBox.style.display = 'block';
+                responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p><pre>${error}</pre>`;
             });
         });
     </script>
