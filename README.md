@@ -14,7 +14,7 @@
             margin-top: 20px;
             padding: 10px;
             border: 1px solid #000;
-            background-color: #1E1E1E; /* צבע רקע שחור בהיר יותר לתיבת התגובה */
+            background-color: #000000; /* צבע רקע שחור בהיר יותר לתיבת התגובה */
             color: #FFDD57; /* צבע טקסט שונה מהלבן לתיבת השגיאה */
             width: 1200px;
             height: 250px;
