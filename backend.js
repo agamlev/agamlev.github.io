@@ -8,8 +8,8 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         "phone": document.getElementById('phone').value,
     };
 
-    // שינוי ה-URL לשרת שלך
-    fetch('/api/sendLead', { // מניחים שהשרת שלך מתארח באותו דומיין, כמו http://example.com/api/sendLead
+    // שליחת הנתונים לשרת ה-Backend שלך
+    fetch('/api/sendLead', { // מניחים שהשרת שלך מתארח באותו דומיין
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,9 +18,14 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
+        const responseBox = document.getElementById('responseBox');
+        responseBox.style.display = 'block';
+        responseBox.innerHTML = `תשובה מהשרת: ${JSON.stringify(data, null, 2)}`;
     })
     .catch(error => {
         console.error('Error:', error);
+        const responseBox = document.getElementById('responseBox');
+        responseBox.style.display = 'block';
+        responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p>\n${error.message}`;
     });
 });
