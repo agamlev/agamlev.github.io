@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-// מסלול שיטפל בבקשות ל-API
+// טיפול בבקשות מה-Frontend
 app.post('/api/sendLead', async (req, res) => {
     try {
         const formData = req.body;
@@ -25,7 +25,7 @@ app.post('/api/sendLead', async (req, res) => {
 
         const data = await response.json();
 
-        // החזרת התשובה למשתמש
+        // החזרת התשובה ל-Frontend
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
