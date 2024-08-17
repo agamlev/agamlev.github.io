@@ -17,7 +17,7 @@ app.post('/api/sendLead', async (req, res) => {
         const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
             method: 'POST',
             headers: {
-                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
+                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f', // ודא שה-API Key נכון
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -26,8 +26,13 @@ app.post('/api/sendLead', async (req, res) => {
                 email: formData.email,
                 phone: formData.phone,
                 location_box_fk: 279, // ודא ש-ID של קופסת המיקום נכון
+                // הוסף כאן פרמטרים נוספים במידת הצורך בהתאם לדוקומנטציה
             })
         });
+
+        if (arboxResponse.status === 405) {
+            throw new Error('405 Method Not Allowed - URL or method is incorrect.');
+        }
 
         if (!arboxResponse.ok) {
             throw new Error(`HTTP error! status: ${arboxResponse.status}`);
