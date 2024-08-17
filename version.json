@@ -1,17 +1,5 @@
-fetch('version.json')
-    .then(response => {
-        console.log('Response status:', response.status);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const versionInfo = document.getElementById('versionInfo');
-        versionInfo.innerHTML = `גרסה ${data.version} - עודכן ב-${data.date} בשעה ${data.time}`;
-    })
-    .catch(error => {
-        console.error('Error loading version info:', error);
-        const versionInfo = document.getElementById('versionInfo');
-        versionInfo.innerHTML = `לא ניתן לטעון מידע על גרסה`;
-    });
+{
+    "version": "1.0.3",
+    "date": "2024-08-17",
+    "time": "15:32"
+}
