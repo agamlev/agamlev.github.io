@@ -1,62 +1,36 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-app.use(express.json());
+    const formData = {
+        first_name: document.getElementById('first_name').value,
+        last_name: document.getElementById('last_name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        location_box_fk: 279 // ודא ש-ID של קופסת המיקום נכון
+    };
 
-app.post('/api/sendLead', async (req, res) => {
-    try {
-        const formData = req.body;
-
-        // קבלת ה-IP של השרת שממנו נשלחת הבקשה
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        const serverIp = ipData.ip;
-
-        // שליחת הבקשה ל-API של Arbox
-        const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
-            method: 'POST',
-            headers: {
-                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f', // ודא שה-API Key נכון
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                first_name: formData.first_name,
-                last_name: formData.last_name,
-                email: formData.email,
-                phone: formData.phone,
-                location_box_fk: 279, // ודא ש-ID של קופסת המיקום נכון
-            })
-        });
-
-        // רישום סטטוס התגובה והטקסט למסוף כדי לבדוק מה מתקבל
-        console.log(`Response Status: ${arboxResponse.status}`);
-        const responseText = await arboxResponse.text();
-        console.log(`Response Text: ${responseText}`);
-
-        if (arboxResponse.status === 405) {
-            throw new Error('405 Method Not Allowed - URL or method is incorrect.');
+    fetch('/api/sendLead', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        if (!arboxResponse.ok) {
-            throw new Error(`HTTP error! status: ${arboxResponse.status}`);
-        }
-
-        // המרת הטקסט ל-JSON אם התגובה תקינה
-        const arboxData = JSON.parse(responseText);
-
-        // החזרת התשובה ל-Frontend כולל ה-IP של השרת
-        res.json({
-            arboxResponse: arboxData,
-            serverIp: serverIp
-        });
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+        return response.json();
+    })
+    .then(data => {
+        const responseBox = document.getElementById('responseBox');
+        responseBox.style.display = 'block';
+        responseBox.innerHTML = `תשובה מה-API של Arbox: ${JSON.stringify(data.arboxResponse, null, 2)}\n\n` +
+                                `מקור ה-IP של השרת: ${data.serverIp}`;
+    })
+    .catch(error => {
+        const responseBox = document.getElementById('responseBox');
+        responseBox.style.display = 'block';
+        responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p>\n${error.message}`;
+    });
 });
