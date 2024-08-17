@@ -6,13 +6,16 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         "last_name": document.getElementById('last_name').value,
         "email": document.getElementById('email').value,
         "phone": document.getElementById('phone').value,
+        "location_box_fk": 279, // הוספת הפרמטר location_box_fk
+        "users_boxes_owner_id": 3546456 // אם פרמטר זה דרוש, ודא שהוא כלול
     };
 
     // שליחת הנתונים לשרת ה-Backend שלך
     fetch('/api/sendLead', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f' // ודא שה-API Key נכון
         },
         body: JSON.stringify(formData)
     })
