@@ -8,10 +8,9 @@ app.post('/api/sendLead', async (req, res) => {
     try {
         const formData = req.body;
 
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        const serverIp = ipData.ip;
+        console.log('Received form data:', formData); // הדפסת הנתונים שהתקבלו לשרת
 
+        // שליחת הבקשה ל-API של Arbox
         const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
             method: 'POST',
             headers: {
@@ -23,13 +22,17 @@ app.post('/api/sendLead', async (req, res) => {
                 last_name: formData.last_name,
                 email: formData.email,
                 phone: formData.phone,
-                location_box_fk: 279
+                location_box_fk: 279 // ודא שה-ID של הקופסה נכון
             })
         });
 
+        console.log(`Response Status: ${arboxResponse.status}`); // הדפסת סטטוס התגובה מה-API
         const responseText = await arboxResponse.text();
-        console.log(`Response Status: ${arboxResponse.status}`);
-        console.log(`Response Text: ${responseText}`);
+        console.log(`Response Text: ${responseText}`); // הדפסת טקסט התגובה מה-API
+
+        if (arboxResponse.status === 405) {
+            throw new Error('405 Method Not Allowed - URL or method is incorrect.');
+        }
 
         if (!arboxResponse.ok) {
             throw new Error(`HTTP error! status: ${arboxResponse.status} - ${responseText}`);
@@ -37,9 +40,10 @@ app.post('/api/sendLead', async (req, res) => {
 
         const arboxData = JSON.parse(responseText);
 
+        // החזרת התשובה ל-Frontend
         res.json({
             arboxResponse: arboxData,
-            serverIp: serverIp
+            serverIp: formData.serverIp
         });
     } catch (error) {
         console.error('Error:', error.message);
