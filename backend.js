@@ -26,8 +26,6 @@ app.post('/api/sendLead', async (req, res) => {
                 email: formData.email,
                 phone: formData.phone,
                 location_box_fk: 279, // ודא ש-ID של קופסת המיקום נכון
-                users_boxes_owner_id: 3546456, // זה ה-ID של הבעלים של הקופסה
-                ip: serverIp // הוספת ה-IP של השרת כפרמטר נוסף
             })
         });
 
