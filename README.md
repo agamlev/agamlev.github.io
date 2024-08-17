@@ -5,15 +5,16 @@
     <title>טופס הרשמה</title>
     <style>
         body {
-            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364); /* גרדיאנט מודרני */
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
             color: #E0E0E0;
-            font-family: 'Quicksand', sans-serif; /* פונט מודרני ונקי */
+            font-family: 'Quicksand', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* למנוע גלילה */
+            overflow: hidden;
+            position: relative;
         }
 
         h1 {
@@ -21,18 +22,18 @@
             text-align: center;
             margin-bottom: 20px;
             font-size: 32px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* צללים לטקסט */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         form {
             background-color: #2C2C2C;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* צללים חזקים יותר */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             max-width: 400px;
             width: 100%;
-            animation: fadeIn 1s ease-in-out; /* הנפשה בכניסה */
-            box-sizing: border-box; /* לוודא שכל רוחב הפורם נכלל בתוך 100% */
+            animation: fadeIn 1s ease-in-out;
+            box-sizing: border-box;
         }
 
         @keyframes fadeIn {
@@ -57,11 +58,11 @@
             width: 100%;
             box-sizing: border-box;
             font-size: 16px;
-            transition: background-color 0.3s ease; /* הנפשה בעת מעבר עכבר */
+            transition: background-color 0.3s ease;
         }
 
         input:focus {
-            background-color: #444444; /* שינוי צבע בשדה בפוקוס */
+            background-color: #444444;
             outline: none;
         }
 
@@ -75,12 +76,12 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease; /* הנפשה לכפתור */
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         button:hover {
             background-color: #E5C54F;
-            transform: translateY(-3px); /* שינוי גובה קל במעבר עכבר */
+            transform: translateY(-3px);
         }
 
         #responseBox {
@@ -93,6 +94,21 @@
             display: none;
             white-space: pre-wrap;
             font-size: 14px;
+        }
+
+        /* חלון מידע על המדינה */
+        #countryInfo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #2C2C2C;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            color: #FFDD57;
+            font-size: 16px;
+            max-width: 200px;
+            display: none; /* מוסתר כברירת מחדל */
         }
     </style>
 </head>
@@ -114,6 +130,9 @@
         <button type="submit">שלח</button>
         <div id="responseBox"></div>
     </form>
+
+    <!-- חלון מידע על המדינה -->
+    <div id="countryInfo"></div>
 
     <!-- טוען את הסקריפט החיצוני -->
     <script src="backend.js"></script>
