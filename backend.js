@@ -11,6 +11,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     };
 
     const responseBox = document.getElementById('responseBox');
+    const countryInfo = document.getElementById('countryInfo'); // חלון מידע על המדינה
 
     // שלב 1: קבלת מקור השרת
     fetch('https://ipinfo.io/json')
@@ -27,6 +28,10 @@ document.getElementById('registrationForm').addEventListener('submit', function(
             };
 
             const countryName = countryNames[country] || country;
+
+            // הצגת המידע בחלון הצד
+            countryInfo.innerHTML = `מקור הבקשה: ${countryName}`;
+            countryInfo.style.display = 'block';
 
             // שלב 2: שליחת הבקשה ל-API של Arbox
             return fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
