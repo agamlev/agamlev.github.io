@@ -13,6 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden; /* למנוע גלילה */
         }
 
         h1 {
@@ -31,6 +32,7 @@
             max-width: 400px;
             width: 100%;
             animation: fadeIn 1s ease-in-out; /* הנפשה בכניסה */
+            box-sizing: border-box; /* לוודא שכל רוחב הפורם נכלל בתוך 100% */
         }
 
         @keyframes fadeIn {
@@ -64,4 +66,56 @@
         }
 
         button {
-            background-c
+            background-color: #FFDD57;
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* הנפשה לכפתור */
+        }
+
+        button:hover {
+            background-color: #E5C54F;
+            transform: translateY(-3px); /* שינוי גובה קל במעבר עכבר */
+        }
+
+        #responseBox {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #292929;
+            color: #FFDD57;
+            width: 100%;
+            display: none;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <form id="registrationForm">
+        <h1>טופס הרשמה</h1>
+        <label for="first_name">שם פרטי:</label>
+        <input type="text" id="first_name" name="first_name" required>
+        
+        <label for="last_name">שם משפחה:</label>
+        <input type="text" id="last_name" name="last_name" required>
+        
+        <label for="email">כתובת מייל:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="phone">טלפון:</label>
+        <input type="tel" id="phone" name="phone" required>
+        
+        <button type="submit">שלח</button>
+        <div id="responseBox"></div>
+    </form>
+
+    <!-- טוען את הסקריפט החיצוני -->
+    <script src="backend.js"></script>
+</body>
+</html>
