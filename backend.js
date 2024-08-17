@@ -11,29 +11,26 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     };
 
     const responseBox = document.getElementById('responseBox');
-    const countryInfo = document.getElementById('countryInfo'); // חלון מידע על המדינה
 
-    // שלב 1: קבלת מקור השרת
+    if (!responseBox) {
+        console.error('Error: Element with ID "responseBox" not found.');
+        return;
+    }
+
+    // קבלת מקור השרת
     fetch('https://ipinfo.io/json')
         .then(response => response.json())
         .then(ipData => {
             const country = ipData.country;
-
-            // תרגום של קוד המדינה
             const countryNames = {
                 "IL": "ישראל",
                 "US": "ארצות הברית",
                 "CA": "קנדה",
                 // הוסף עוד לפי הצורך
             };
-
             const countryName = countryNames[country] || country;
 
-            // הצגת המידע בחלון הצד
-            countryInfo.innerHTML = `מקור הבקשה: ${countryName}`;
-            countryInfo.style.display = 'block';
-
-            // שלב 2: שליחת הבקשה ל-API של Arbox
+            // שליחת הבקשה ל-API של Arbox
             return fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
                 method: 'POST',
                 headers: {
