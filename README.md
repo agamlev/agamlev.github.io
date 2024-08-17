@@ -112,9 +112,15 @@
     </form>
 
     <script>
-        // טעינת מידע הגרסה
-        const versionInfoElement = document.getElementById('versionInfo');
-        versionInfoElement.innerHTML = 'גרסה 1.0.3 - עודכן ב-2024-08-17 בשעה 15:32';
+        // פונקציה להצגת תאריך ושעה לפי שעון ישראל
+        function updateVersionInfo() {
+            const options = { timeZone: 'Asia/Jerusalem', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const israelTime = new Intl.DateTimeFormat('he-IL', options).format(new Date());
+            const versionInfoElement = document.getElementById('versionInfo');
+            versionInfoElement.innerHTML = `גרסה 1.0.3 - עודכן ב-${israelTime}`;
+        }
+
+        updateVersionInfo();
 
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
