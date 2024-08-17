@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>טופס הרשמה</title>
     <style>
-        /* עיצוב כללי */
         body {
             background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
             color: #E0E0E0;
@@ -76,7 +75,6 @@
             font-size: 14px;
         }
 
-        /* עיצוב תיבת הגרסה */
         .version-info {
             position: absolute;
             top: 10px;
@@ -91,12 +89,10 @@
     </style>
 </head>
 <body>
-    <!-- תצוגת מידע הגרסה -->
     <div class="version-info" id="versionInfo">
         טוען גרסה...
     </div>
 
-    <!-- טופס הרשמה -->
     <form id="registrationForm">
         <h1>טופס הרשמה</h1>
         <label for="first_name">שם פרטי:</label>
@@ -115,12 +111,8 @@
         <div id="responseBox"></div>
     </form>
 
-    <!-- טעינת קובץ ה-JavaScript -->
     <script src="backend.js"></script>
-
-    <!-- קוד JavaScript להצגת מידע הגרסה -->
     <script>
-        // טעינת מידע הגרסה מהקובץ version.json והצגתו בעמוד
         fetch('version.json')
             .then(response => {
                 if (!response.ok) {
