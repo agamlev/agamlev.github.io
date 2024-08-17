@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אתר אינטראקטיבי</title>
+    <title>אתר אינטראקטיבי ומודרני</title>
     <style>
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
-            background: #121212;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
             color: #ffffff;
+            overflow-x: hidden;
         }
 
-        h1, h2 {
+        h1 {
             text-align: center;
+            font-size: 3rem;
             margin-top: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #FFDD57;
+            animation: fadeInDown 1s ease-in-out;
         }
 
         .container {
@@ -23,24 +28,72 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            padding: 50px 0;
+            padding: 50px 20px;
         }
 
         .card {
             background: #1e1e1e;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px;
-            width: 250px;
-            height: 200px;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px;
+            width: 300px;
+            height: 250px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transform: translateY(-10px) rotateZ(3deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 221, 87, 0.1);
+            transition: transform 0.5s ease;
+            transform-origin: center;
+            transform: rotate(45deg);
+        }
+
+        .card:hover::before {
+            transform: rotate(90deg);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #FFDD57;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background-color: #FFDD57;
+            color: #121212;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background-color: #FFC700;
+            transform: translateY(-5px);
         }
 
         .circle {
@@ -64,22 +117,6 @@
             }
         }
 
-        .btn {
-            background-color: #ffdd57;
-            color: #121212;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #ffc700;
-            transform: translateY(-3px);
-        }
-
         .scroll-down {
             position: absolute;
             bottom: 20px;
@@ -98,25 +135,36 @@
                 transform: translate(-50%, -10px);
             }
         }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>ברוכים הבאים לאתר אינטראקטיבי</h1>
+    <h1>ברוכים הבאים לאתר מודרני</h1>
     <div class="container">
         <div class="card">
             <h2>כרטיס 1</h2>
-            <p>תוכן כרטיס 1</p>
-            <button class="btn">לחץ כאן</button>
+            <p>תוכן אינטראקטיבי ומעניין לכרטיס 1.</p>
+            <button class="btn">גלה עוד</button>
         </div>
         <div class="card">
             <h2>כרטיס 2</h2>
-            <p>תוכן כרטיס 2</p>
-            <button class="btn">לחץ כאן</button>
+            <p>תוכן אינטראקטיבי ומעניין לכרטיס 2.</p>
+            <button class="btn">גלה עוד</button>
         </div>
         <div class="card">
             <h2>כרטיס 3</h2>
-            <p>תוכן כרטיס 3</p>
-            <button class="btn">לחץ כאן</button>
+            <p>תוכן אינטראקטיבי ומעניין לכרטיס 3.</p>
+            <button class="btn">גלה עוד</button>
         </div>
     </div>
     <div class="circle"></div>
