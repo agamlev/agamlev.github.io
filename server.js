@@ -8,16 +8,14 @@ app.post('/api/sendLead', async (req, res) => {
     try {
         const formData = req.body;
 
-        // קבלת ה-IP של השרת שממנו נשלחת הבקשה
         const ipResponse = await fetch('https://api.ipify.org?format=json');
         const ipData = await ipResponse.json();
         const serverIp = ipData.ip;
 
-        // שליחת הבקשה ל-API של Arbox
         const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
             method: 'POST',
             headers: {
-                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f', // ודא שה-API Key נכון
+                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -25,24 +23,26 @@ app.post('/api/sendLead', async (req, res) => {
                 last_name: formData.last_name,
                 email: formData.email,
                 phone: formData.phone,
-                location_box_fk: 279, // ID של קופסת המיקום
-                users_boxes_owner_id: 3546456, // ID של בעל הקופסה
-                ip: serverIp // הוספת ה-IP של השרת כפרמטר נוסף
+                location_box_fk: 279
             })
         });
 
+        const responseText = await arboxResponse.text();
+        console.log(`Response Status: ${arboxResponse.status}`);
+        console.log(`Response Text: ${responseText}`);
+
         if (!arboxResponse.ok) {
-            throw new Error(`HTTP error! status: ${arboxResponse.status}`);
+            throw new Error(`HTTP error! status: ${arboxResponse.status} - ${responseText}`);
         }
 
-        const arboxData = await arboxResponse.json();
+        const arboxData = JSON.parse(responseText);
 
-        // החזרת התשובה ל-Frontend כולל ה-IP של השרת
         res.json({
             arboxResponse: arboxData,
             serverIp: serverIp
         });
     } catch (error) {
+        console.error('Error:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
