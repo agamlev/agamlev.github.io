@@ -20,7 +20,8 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     .then(data => {
         const responseBox = document.getElementById('responseBox');
         responseBox.style.display = 'block';
-        responseBox.innerHTML = `תשובה מהשרת: ${JSON.stringify(data, null, 2)}`;
+        responseBox.innerHTML = `תשובה מה-API של Arbox: ${JSON.stringify(data.arboxResponse, null, 2)}\n\n` +
+                                `מקור ה-IP של השרת: ${data.serverIp}`;
     })
     .catch(error => {
         console.error('Error:', error);
