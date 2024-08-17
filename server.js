@@ -17,10 +17,18 @@ app.post('/api/sendLead', async (req, res) => {
         const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
             method: 'POST',
             headers: {
-                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
+                'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f', // ודא שה-API Key נכון
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                email: formData.email,
+                phone: formData.phone,
+                location_box_fk: 279, // ID של קופסת המיקום
+                users_boxes_owner_id: 3546456, // ID של בעל הקופסה
+                ip: serverIp // הוספת ה-IP של השרת כפרמטר נוסף
+            })
         });
 
         if (!arboxResponse.ok) {
@@ -29,4 +37,17 @@ app.post('/api/sendLead', async (req, res) => {
 
         const arboxData = await arboxResponse.json();
 
-        // החזרת התשובה ל-Frontend כולל ה-
+        // החזרת התשובה ל-Frontend כולל ה-IP של השרת
+        res.json({
+            arboxResponse: arboxData,
+            serverIp: serverIp
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
