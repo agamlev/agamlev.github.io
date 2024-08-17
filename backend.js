@@ -17,15 +17,15 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         body: JSON.stringify(formData)
     })
     .then(response => {
-        // הצגת התגובה המקורית בקונסולה כדי לבדוק מה מתקבל
-        return response.text().then(text => {
-            console.log('Response text:', text);
-            try {
-                return JSON.parse(text); // ננסה להמיר ל-JSON רק אם זה אפשרי
-            } catch (error) {
-                throw new Error(`Failed to parse response as JSON. Original text: ${text}`);
-            }
-        });
+        // בדיקה אם התגובה היא JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json(); // אם התגובה היא JSON, להחזיר JSON
+        } else {
+            return response.text().then(text => {
+                throw new Error(`Unexpected response format: ${text}`);
+            });
+        }
     })
     .then(data => {
         const responseBox = document.getElementById('responseBox');
