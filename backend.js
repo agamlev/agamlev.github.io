@@ -34,3 +34,4 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p>\n${error.message}`;
     });
 });
+ 
