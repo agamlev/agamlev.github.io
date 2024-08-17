@@ -11,26 +11,16 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     };
 
     const responseBox = document.getElementById('responseBox');
-    const countryInfo = document.getElementById('countryInfo'); // חלון מידע על המדינה
+    const countryInfo = document.getElementById('countryInfo');
 
-    // שלב 1: קבלת מקור השרת
-    fetch('https://ipinfo.io/json')
+    // שלב 1: קבלת מקור ה-IP שממנו נשלחת הבקשה
+    fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(ipData => {
-            const country = ipData.country;
-
-            // תרגום של קוד המדינה
-            const countryNames = {
-                "IL": "ישראל",
-                "US": "ארצות הברית",
-                "CA": "קנדה",
-                // הוסף עוד לפי הצורך
-            };
-
-            const countryName = countryNames[country] || country;
+            const clientIp = ipData.ip;
 
             // הצגת המידע בחלון הצד
-            countryInfo.innerHTML = `מקור הבקשה: ${countryName}`;
+            countryInfo.innerHTML = `כתובת ה-IP של השרת השולח: ${clientIp}`;
             countryInfo.style.display = 'block';
 
             // שלב 2: שליחת הבקשה ל-API של Arbox
@@ -52,7 +42,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
                 return response.json();
             }).then(data => {
                 responseBox.style.display = 'block';
-                responseBox.innerHTML = `תשובה מהשרת:\n${JSON.stringify(data, null, 2)}\n\nמקור הבקשה: ${countryName}`;
+                responseBox.innerHTML = `תשובה מהשרת:\n${JSON.stringify(data, null, 2)}\n\nכתובת ה-IP של השרת השולח: ${clientIp}`;
             });
         })
         .catch(error => {
