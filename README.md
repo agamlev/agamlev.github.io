@@ -5,64 +5,94 @@
     <title>טופס הרשמה</title>
     <style>
         body {
-            background-color: #121212; /* צבע רקע שחור כהה */
-            color: #FFFFFF; /* צבע טקסט לבן לקריאה טובה יותר */
-            font-family: Arial, sans-serif; /* משפחת פונטים כללית */
+            background-color: #1F1F1F; /* צבע רקע כהה יותר עם גוון מודרני */
+            color: #E0E0E0; /* צבע טקסט אפור בהיר */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* פונטים מודרניים */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #FFDD57;
+            text-align: center;
+        }
+
+        form {
+            background-color: #2C2C2C; /* צבע רקע ניגודיות נמוכה */
+            padding: 30px;
+            border-radius: 10px; /* פינות מעוגלות */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* צללים עדינים */
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            background-color: #3A3A3A; /* צבע רקע לשדות קלט */
+            color: #FFFFFF;
+            border: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px; /* פינות מעוגלות לשדות קלט */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #FFDD57; /* צבע רקע לכפתור */
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 5px; /* פינות מעוגלות לכפתור */
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* אנימציה למעבר עכבר */
+        }
+
+        button:hover {
+            background-color: #E5C54F; /* שינוי צבע רקע במעבר עכבר */
         }
 
         #responseBox {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #000;
-            background-color: #000000; /* צבע רקע שחור בהיר יותר לתיבת התגובה */
-            color: #FFDD57; /* צבע טקסט שונה מהלבן לתיבת השגיאה */
-            width: 1200px;
-            height: 250px;
-            overflow: auto;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #292929; /* צבע רקע לתיבת התגובה */
+            color: #FFDD57;
+            width: 100%;
             display: none;
-        }
-
-        input, button {
-            background-color: #333333; /* צבע רקע לכפתורים ולשדות קלט */
-            color: #FFFFFF; /* צבע טקסט לבן לכפתורים ולשדות קלט */
-            border: 1px solid #555555; /* מסגרת כהה לשדות קלט */
-            padding: 10px;
-            margin-bottom: 10px;
-            width: 100%; /* כל שדה יתפרס על כל רוחב הקונטיינר */
-        }
-
-        label {
-            color: #FFFFFF; /* צבע טקסט לבן לתוויות */
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #444444; /* שינוי צבע רקע לכפתור במעבר עכבר */
+            white-space: pre-wrap;
         }
     </style>
 </head>
 <body>
-    <h1>טופס הרשמה</h1>
     <form id="registrationForm">
-        <label for="first_name">שם פרטי:</label><br>
-        <input type="text" id="first_name" name="first_name" required><br><br>
+        <h1>טופס הרשמה</h1>
+        <label for="first_name">שם פרטי:</label>
+        <input type="text" id="first_name" name="first_name" required>
         
-        <label for="last_name">שם משפחה:</label><br>
-        <input type="text" id="last_name" name="last_name" required><br><br>
+        <label for="last_name">שם משפחה:</label>
+        <input type="text" id="last_name" name="last_name" required>
         
-        <label for="email">כתובת מייל:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+        <label for="email">כתובת מייל:</label>
+        <input type="email" id="email" name="email" required>
         
-        <label for="phone">טלפון:</label><br>
-        <input type="tel" id="phone" name="phone" required><br><br>
+        <label for="phone">טלפון:</label>
+        <input type="tel" id="phone" name="phone" required>
         
         <button type="submit">שלח</button>
+        <div id="responseBox"></div>
     </form>
-
-    <div id="responseBox"></div>
 
     <script>
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
@@ -99,12 +129,12 @@
             })
             .then(data => {
                 responseBox.style.display = 'block';
-                responseBox.innerHTML = `<pre>תשובה מהשרת: ${JSON.stringify(data, null, 2)}</pre>`;
+                responseBox.innerHTML = `תשובה מהשרת:\n${JSON.stringify(data, null, 2)}`;
             })
             .catch(error => {
                 console.error('Error:', error);
                 responseBox.style.display = 'block';
-                responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p><pre>${error.message}</pre>`;
+                responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p>\n${error.message}`;
             });
         });
     </script>
