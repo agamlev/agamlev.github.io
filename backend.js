@@ -26,9 +26,13 @@ app.post('/api/sendLead', async (req, res) => {
                 email: formData.email,
                 phone: formData.phone,
                 location_box_fk: 279, // ודא ש-ID של קופסת המיקום נכון
-                // הוסף כאן פרמטרים נוספים במידת הצורך בהתאם לדוקומנטציה
             })
         });
+
+        // רישום סטטוס התגובה והטקסט למסוף כדי לבדוק מה מתקבל
+        console.log(`Response Status: ${arboxResponse.status}`);
+        const responseText = await arboxResponse.text();
+        console.log(`Response Text: ${responseText}`);
 
         if (arboxResponse.status === 405) {
             throw new Error('405 Method Not Allowed - URL or method is incorrect.');
@@ -38,7 +42,8 @@ app.post('/api/sendLead', async (req, res) => {
             throw new Error(`HTTP error! status: ${arboxResponse.status}`);
         }
 
-        const arboxData = await arboxResponse.json();
+        // המרת הטקסט ל-JSON אם התגובה תקינה
+        const arboxData = JSON.parse(responseText);
 
         // החזרת התשובה ל-Frontend כולל ה-IP של השרת
         res.json({
@@ -46,6 +51,7 @@ app.post('/api/sendLead', async (req, res) => {
             serverIp: serverIp
         });
     } catch (error) {
+        console.error('Error:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
