@@ -191,11 +191,10 @@
                 first_name: document.getElementById('first_name').value,
                 last_name: document.getElementById('last_name').value,
                 email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                location_box_fk: 279 // ודא ש-ID של קופסת המיקום נכון
+                phone: document.getElementById('phone').value
             };
 
-            // שליחת הנתונים לשרת הפרוקסי (השרת שלך)
+            // שליחת בקשת API דרך שרת הפרוקסי
             fetch('/api/sendLead', {
                 method: 'POST',
                 headers: {
@@ -219,6 +218,66 @@
                 responseBox.style.display = 'block';
                 responseBox.innerHTML = `<p>אירעה שגיאה בעת שליחת הטופס.</p>\n${error.message}`;
             });
+        });
+    </script>
+
+    <!-- סקריפט Node.js לשרת -->
+    <script>
+        const express = require('express');
+        const fetch = require('node-fetch');
+        const app = express();
+
+        app.use(express.json());
+
+        app.post('/api/sendLead', async (req, res) => {
+            try {
+                const formData = req.body;
+
+                // הדפסת פרטים כדי לוודא שמה שנשלח מהקליינט הוא תקין
+                console.log('Received form data:', formData);
+
+                // שליחת הבקשה ל-API של Arbox
+                const arboxResponse = await fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
+                    method: 'POST',
+                    headers: {
+                        'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        first_name: formData.first_name,
+                        last_name: formData.last_name,
+                        email: formData.email,
+                        phone: formData.phone,
+                        location_box_fk: 279
+                    })
+                });
+
+                console.log(`Response Status: ${arboxResponse.status}`);
+
+                if (arboxResponse.status === 405) {
+                    throw new Error('405 Method Not Allowed - URL or method is incorrect.');
+                }
+
+                if (!arboxResponse.ok) {
+                    const errorText = await arboxResponse.text();
+                    throw new Error(`HTTP error! status: ${arboxResponse.status} - ${errorText}`);
+                }
+
+                const arboxData = await arboxResponse.json();
+
+                res.json({
+                    arboxResponse: arboxData,
+                    serverIp: req.ip
+                });
+            } catch (error) {
+                console.error('Error:', error.message);
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
         });
     </script>
 </body>
