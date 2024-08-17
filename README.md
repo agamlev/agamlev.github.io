@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <title>טופס הרשמה</title>
     <style>
+        /* עיצוב כללי */
         body {
-            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364); /* גרדיאנט רקע */
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
             color: #E0E0E0;
-            font-family: 'Quicksand', sans-serif; /* פונט מודרני */
+            font-family: 'Quicksand', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
         }
 
         h1 {
@@ -73,9 +75,28 @@
             white-space: pre-wrap;
             font-size: 14px;
         }
+
+        /* עיצוב תיבת הגרסה */
+        .version-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #FFDD57;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+        }
     </style>
 </head>
 <body>
+    <!-- תצוגת מידע הגרסה -->
+    <div class="version-info" id="versionInfo">
+        טוען גרסה...
+    </div>
+
+    <!-- טופס הרשמה -->
     <form id="registrationForm">
         <h1>טופס הרשמה</h1>
         <label for="first_name">שם פרטי:</label>
@@ -96,5 +117,21 @@
 
     <!-- טעינת קובץ ה-JavaScript -->
     <script src="backend.js"></script>
+
+    <!-- קוד JavaScript להצגת מידע הגרסה -->
+    <script>
+        // טעינת מידע הגרסה מהקובץ version.json והצגתו בעמוד
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                const versionInfo = document.getElementById('versionInfo');
+                versionInfo.innerHTML = `גרסה ${data.version} - עודכן ב-${data.date} בשעה ${data.time}`;
+            })
+            .catch(error => {
+                console.error('Error loading version info:', error);
+                const versionInfo = document.getElementById('versionInfo');
+                versionInfo.innerHTML = `לא ניתן לטעון מידע על גרסה`;
+            });
+    </script>
 </body>
 </html>
