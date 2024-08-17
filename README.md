@@ -133,11 +133,10 @@
                 location_box_fk: 279 // ודא ש-ID של קופסת המיקום נכון
             };
 
-            // שליחת הנתונים ישירות ל-API של Arbox
-            fetch('https://api.arboxapp.com/index.php/api/v2/leads', {
+            // שליחת הנתונים לשרת הפרוקסי (השרת שלך)
+            fetch('/api/sendLead', {
                 method: 'POST',
                 headers: {
-                    'apiKey': '0dd58bfc-3069-4ea2-b722-c7aa0a9b300f',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
@@ -151,7 +150,7 @@
             .then(data => {
                 const responseBox = document.getElementById('responseBox');
                 responseBox.style.display = 'block';
-                responseBox.innerHTML = `תשובה מה-API של Arbox: ${JSON.stringify(data, null, 2)}`;
+                responseBox.innerHTML = `תשובה מה-API של Arbox: ${JSON.stringify(data.arboxResponse, null, 2)}`;
             })
             .catch(error => {
                 const responseBox = document.getElementById('responseBox');
