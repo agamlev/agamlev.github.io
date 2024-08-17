@@ -9,7 +9,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     };
 
     // שליחת הנתונים לשרת ה-Backend שלך
-    fetch('/api/sendLead', { // מניחים שהשרת שלך מתארח באותו דומיין
+    fetch('/api/sendLead', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
